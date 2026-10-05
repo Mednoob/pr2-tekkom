@@ -1,0 +1,5 @@
+{
+    var n : integer;
+    var a[n] : integer;
+    n := 1
+}

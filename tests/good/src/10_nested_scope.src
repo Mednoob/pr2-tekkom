@@ -1,0 +1,15 @@
+{
+    var x : integer;
+    x := 1;
+    {
+        var y : integer;
+        y := 20;
+        {
+            var z : integer;
+            z := 300;
+            put "inner  = ", x + y + z, skip
+        };
+        put "middle = ", x + y, skip
+    };
+    put "outer  = ", x, skip
+}

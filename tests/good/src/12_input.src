@@ -1,0 +1,6 @@
+{
+    var n : integer;
+    put "enter a number: ";
+    get n;
+    put "you entered ", n, ", its double is ", n * 2, skip
+}

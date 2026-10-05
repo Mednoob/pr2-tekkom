@@ -1,0 +1,8 @@
+{
+    integer func fortytwo() = 42;
+    proc greet()
+        { put "hello from a procedure", skip };
+
+    greet;
+    put "answer = ", fortytwo, skip
+}

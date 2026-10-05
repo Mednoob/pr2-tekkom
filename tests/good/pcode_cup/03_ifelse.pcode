@@ -1,0 +1,22 @@
+INT 1
+LIT 7
+STO 0 0
+LOD 0 0
+LIT 10
+GT
+JZ 11
+OUTS "x is big"
+OUTNL
+OUTNL
+JMP 14
+OUTS "x is small"
+OUTNL
+OUTNL
+LOD 0 0
+LIT 7
+EQ
+JZ 21
+OUTS "x equals seven"
+OUTNL
+OUTNL
+HALT

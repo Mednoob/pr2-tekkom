@@ -1,0 +1,16 @@
+INT 1
+OUTS "enter a number: "
+OUTNL
+IN
+STO 0 0
+OUTS "you entered "
+LOD 0 0
+OUT
+OUTS ", its double is "
+LOD 0 0
+LIT 2
+MUL
+OUT
+OUTNL
+OUTNL
+HALT

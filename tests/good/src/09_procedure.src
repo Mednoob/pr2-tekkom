@@ -1,0 +1,15 @@
+{
+    proc printRow(ch : integer, n : integer)
+        { var i : integer;
+          i := 0;
+          loop
+              if i >= n then exit end if;
+              put ch;
+              i := i + 1
+          end loop;
+          put skip
+        };
+
+    printRow(7, 4);
+    printRow(9, 6)
+}

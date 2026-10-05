@@ -1,0 +1,12 @@
+{
+    var x : integer;
+    x := 7;
+    if x > 10 then
+        put "x is big", skip
+    else
+        put "x is small", skip
+    end if;
+    if x = 7 then
+        put "x equals seven", skip
+    end if
+}

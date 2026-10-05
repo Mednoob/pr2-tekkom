@@ -1,0 +1,11 @@
+{
+    var i : integer;
+    var s : integer;
+    i := 1;
+    s := 0;
+    repeat
+        s := s + i;
+        i := i + 1
+    until i > 5;
+    put "sum 1..5 = ", s, skip
+}

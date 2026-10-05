@@ -1,0 +1,4 @@
+{
+    var x : integer;
+    x[0] := 1
+}

@@ -1,0 +1,10 @@
+{
+    var i : integer;
+    i := 0;
+    loop
+        i := i + 1;
+        if i = 3 then exit end if;
+        put i, " "
+    end loop;
+    put skip, "stopped at ", i, skip
+}

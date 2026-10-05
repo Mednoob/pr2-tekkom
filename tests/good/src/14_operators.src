@@ -1,0 +1,12 @@
+{
+    var x : integer;
+    var b : boolean;
+    x := 2 + 3 * 4 - 6 / 2;
+    b := true & ~false;
+    put "x = ", x, skip;
+    put "b = ", b, skip;
+    put "-x = ", -x, skip;
+    put "(2+3)*4 = ", (2 + 3) * 4, skip;
+    put "10 / 3 = ", 10 / 3, skip;
+    put "10 - 3 - 2 = ", 10 - 3 - 2, skip
+}

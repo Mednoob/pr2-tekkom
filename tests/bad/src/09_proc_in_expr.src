@@ -1,0 +1,6 @@
+{
+    proc p()
+        { put "hi" };
+    var x : integer;
+    x := p
+}

@@ -1,0 +1,5 @@
+{
+    repeat
+        put "x"
+    until 1
+}

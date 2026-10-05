@@ -1,0 +1,7 @@
+{
+    var x : integer;
+    var y : integer;
+    x := { var a : integer; a := 10; a * a };
+    y := { var b : integer; b := 2; b + 40 };
+    put "x = ", x, ", y = ", y, skip
+}

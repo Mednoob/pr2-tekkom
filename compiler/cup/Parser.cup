@@ -1,0 +1,297 @@
+/**
+ * Java CUP parser for the language of CourseGrammar2.
+ *
+ * This is the parser-half of the JFlex + CUP front end.  It performs the
+ * syntax analysis and builds an {@link Ast}, which is then processed by
+ * {@link TreeCompiler} (context rules C0..C40 and code generation rules
+ * R0..R53).
+ *
+ * Generate:
+ *   java -cp java-cup-11b.jar java_cup.Main -parser parser -symbols sym Parser.cup
+ */
+
+import java_cup.runtime.*;
+import java.util.*;
+
+parser code {:
+    /** The lexer used by this parser (set by CupCompiler before parse()). */
+    public Yylex yylex;
+
+    /** Number of syntax errors reported. */
+    public int errorCount = 0;
+
+    private int ln() {
+        return yylex != null ? yylex.getLine() : 0;
+    }
+
+    public void syntax_error(Symbol cur_token) {
+        int line = (cur_token != null && cur_token.left > 0)
+                 ? cur_token.left : ln();
+        System.err.println("Syntax error at line " + line);
+        errorCount++;
+    }
+
+    public void unrecovered_syntax_error(Symbol cur_token) {
+        int line = (cur_token != null && cur_token.left > 0)
+                 ? cur_token.left : ln();
+        throw new RuntimeException("Unrecoverable syntax error at line " + line);
+    }
+:}
+
+/* ---------------------------------------------------------------- terminals */
+
+terminal ADD, SUB, MUL, DIV, EQ, NE, LT, LTE, GT, GTE, AND, OR, NOT, ASSGN;
+terminal LPAREN, RPAREN, LBRACKET, RBRACKET, OPEN, CLOSE, ENDSTMT, LISTSEP, AS;
+terminal IF, THEN, ELSE, END, REPEAT, UNTIL, LOOP, EXIT, PUT, GET;
+terminal VAR, FUNC, PROC, INT, BOOL, TRUE, FALSE, SKIP;
+terminal Ast.Tok IDENT, NUMCONST, STRCONST;
+
+/* ------------------------------------------------------------- nonterminals */
+
+non terminal Object program, scope, decls, declaration, blockDecls,
+    statements, blockStatements, statement, optElse, type, optArrayBound,
+    parameters, moreParameters, parameter, outputs, output, moreOutput,
+    inputs, input, moreInputs, optSubscript, expression, simpleExpression,
+    term, factor, primary, arguments, moreArguments, subscript,
+    assignExpression;
+
+start with program;
+
+/* ----------------------------------------------------------------- program */
+
+program ::= scope:s
+        {: RESULT = s; :}
+        ;
+
+scope ::= OPEN decls:d statements:st CLOSE
+        {: RESULT = Ast.program((List<Ast.Decl>) d, (List<Ast.Stmt>) st, ln()); :}
+        ;
+
+/* ------------------------------------------------------------ declarations */
+
+decls ::= /* empty */
+        {: RESULT = new ArrayList(); :}
+        | decls:l declaration:d ENDSTMT
+        {: ((List) l).add(d); RESULT = l; :}
+        ;
+
+declaration ::= VAR IDENT:id optArrayBound:b AS type:t
+        {: RESULT = Ast.varDecl(id.text, (Ast.Expr) b, (Type) t, id.line); :}
+        | type:t FUNC IDENT:id LPAREN parameters:p RPAREN EQ expression:e
+        {: RESULT = Ast.funcDecl(id.text, (Type) t, (List<Ast.Param>) p, (Ast.Expr) e, id.line); :}
+        | type:t FUNC IDENT:id EQ expression:e
+        {: RESULT = Ast.funcDecl(id.text, (Type) t, new ArrayList(), (Ast.Expr) e, id.line); :}
+        | PROC IDENT:id LPAREN parameters:p RPAREN scope:s
+        {: RESULT = Ast.procDecl(id.text, (List<Ast.Param>) p, (Ast.Program) s, id.line); :}
+        | PROC IDENT:id scope:s
+        {: RESULT = Ast.procDecl(id.text, new ArrayList(), (Ast.Program) s, id.line); :}
+        ;
+
+type ::= INT  {: RESULT = Type.INT;  :}
+        | BOOL {: RESULT = Type.BOOL; :}
+        ;
+
+optArrayBound ::= /* empty */
+        {: RESULT = null; :}
+        | LBRACKET simpleExpression:s RBRACKET
+        {: RESULT = s; :}
+        ;
+
+parameters ::= /* empty */
+        {: RESULT = new ArrayList(); :}
+        | parameter:p moreParameters:m
+        {: List l = new ArrayList(); l.add(p); l.addAll((List) m); RESULT = l; :}
+        ;
+
+moreParameters ::= /* empty */
+        {: RESULT = new ArrayList(); :}
+        | LISTSEP parameter:p moreParameters:m
+        {: List l = new ArrayList(); l.add(p); l.addAll((List) m); RESULT = l; :}
+        ;
+
+parameter ::= IDENT:id AS type:t
+        {: RESULT = Ast.param(id.text, (Type) t, id.line); :}
+        ;
+
+/* -------------------------------------------------------------- statements */
+
+statements ::= /* empty */
+        {: RESULT = new ArrayList(); :}
+        | statements:l statement:s
+        {: ((List) l).add(s); RESULT = l; :}
+        | statements:l ENDSTMT
+        {: RESULT = l; :}
+        ;
+
+statement ::= IDENT:id ASSGN assignExpression:e
+        {: RESULT = Ast.assign(id.text, (Ast.Expr) e, id.line); :}
+        | IDENT:id LBRACKET subscript:i RBRACKET ASSGN assignExpression:e
+        {: RESULT = Ast.arrayAssign(id.text, (Ast.Expr) i, (Ast.Expr) e, id.line); :}
+        | IDENT:id LPAREN arguments:a RPAREN
+        {: RESULT = Ast.callStmt(id.text, (List<Ast.Expr>) a, id.line); :}
+        | IDENT:id
+        {: RESULT = Ast.callStmt(id.text, new ArrayList(), id.line); :}
+        | IF expression:c THEN statements:t optElse:e END IF
+        {: RESULT = Ast.ifStmt((Ast.Expr) c, (List<Ast.Stmt>) t,
+                               (List<Ast.Stmt>) e, ((Ast.Expr) c).line); :}
+        | REPEAT statements:b UNTIL expression:c
+        {: RESULT = Ast.repeat((List<Ast.Stmt>) b, (Ast.Expr) c, ((Ast.Expr) c).line); :}
+        | LOOP statements:b END LOOP
+        {: RESULT = Ast.loop((List<Ast.Stmt>) b, ln()); :}
+        | EXIT
+        {: RESULT = Ast.exit(ln()); :}
+        | PUT outputs:o
+        {: RESULT = Ast.put((List<Object>) o, ln()); :}
+        | GET inputs:i
+        {: RESULT = Ast.get((List<Ast.GetItem>) i, ln()); :}
+        | scope:s
+        {: RESULT = Ast.block(((Ast.Program) s).decls, ((Ast.Program) s).stmts,
+                              ((Ast.Program) s).line); :}
+        ;
+
+optElse ::= /* empty */
+        {: RESULT = new ArrayList(); :}
+        | ELSE statements:s
+        {: RESULT = s; :}
+        ;
+
+/* ------------------------------------------------------------- expressions */
+
+assignExpression ::= expression:e
+        {: RESULT = e; :}
+        ;
+
+subscript ::= simpleExpression:s
+        {: RESULT = s; :}
+        ;
+
+expression ::= simpleExpression:s
+        {: RESULT = s; :}
+        | simpleExpression:l EQ simpleExpression:r
+        {: RESULT = Ast.binary("=",  (Ast.Expr) l, (Ast.Expr) r, ((Ast.Expr) l).line); :}
+        | simpleExpression:l NE simpleExpression:r
+        {: RESULT = Ast.binary("#",  (Ast.Expr) l, (Ast.Expr) r, ((Ast.Expr) l).line); :}
+        | simpleExpression:l LT simpleExpression:r
+        {: RESULT = Ast.binary("<",  (Ast.Expr) l, (Ast.Expr) r, ((Ast.Expr) l).line); :}
+        | simpleExpression:l LTE simpleExpression:r
+        {: RESULT = Ast.binary("<=", (Ast.Expr) l, (Ast.Expr) r, ((Ast.Expr) l).line); :}
+        | simpleExpression:l GT simpleExpression:r
+        {: RESULT = Ast.binary(">",  (Ast.Expr) l, (Ast.Expr) r, ((Ast.Expr) l).line); :}
+        | simpleExpression:l GTE simpleExpression:r
+        {: RESULT = Ast.binary(">=", (Ast.Expr) l, (Ast.Expr) r, ((Ast.Expr) l).line); :}
+        ;
+
+simpleExpression ::= term:t
+        {: RESULT = t; :}
+        | simpleExpression:l ADD term:r
+        {: RESULT = Ast.binary("+", (Ast.Expr) l, (Ast.Expr) r, ((Ast.Expr) l).line); :}
+        | simpleExpression:l SUB term:r
+        {: RESULT = Ast.binary("-", (Ast.Expr) l, (Ast.Expr) r, ((Ast.Expr) l).line); :}
+        | simpleExpression:l OR term:r
+        {: RESULT = Ast.binary("|", (Ast.Expr) l, (Ast.Expr) r, ((Ast.Expr) l).line); :}
+        ;
+
+term ::= factor:f
+        {: RESULT = f; :}
+        | term:l MUL factor:r
+        {: RESULT = Ast.binary("*", (Ast.Expr) l, (Ast.Expr) r, ((Ast.Expr) l).line); :}
+        | term:l DIV factor:r
+        {: RESULT = Ast.binary("/", (Ast.Expr) l, (Ast.Expr) r, ((Ast.Expr) l).line); :}
+        | term:l AND factor:r
+        {: RESULT = Ast.binary("&", (Ast.Expr) l, (Ast.Expr) r, ((Ast.Expr) l).line); :}
+        ;
+
+factor ::= primary:p
+        {: RESULT = p; :}
+        | ADD factor:f
+        {: RESULT = Ast.unary("+", (Ast.Expr) f, ((Ast.Expr) f).line); :}
+        | SUB factor:f
+        {: RESULT = Ast.unary("-", (Ast.Expr) f, ((Ast.Expr) f).line); :}
+        | NOT factor:f
+        {: RESULT = Ast.unary("~", (Ast.Expr) f, ((Ast.Expr) f).line); :}
+        ;
+
+primary ::= NUMCONST:n
+        {: RESULT = Ast.intLit(n.text, n.line); :}
+        | TRUE
+        {: RESULT = Ast.boolLit(true, ln()); :}
+        | FALSE
+        {: RESULT = Ast.boolLit(false, ln()); :}
+        | LPAREN expression:e RPAREN
+        {: RESULT = e; :}
+        | OPEN blockDecls:d blockStatements:st ENDSTMT expression:e CLOSE
+        {: RESULT = Ast.blockExpr((List<Ast.Decl>) d, (List<Ast.Stmt>) st,
+                                  (Ast.Expr) e, ln()); :}
+        | IDENT:id
+        {: RESULT = Ast.var(id.text, id.line); :}
+        | IDENT:id LPAREN arguments:a RPAREN
+        {: RESULT = Ast.call(id.text, (List<Ast.Expr>) a, id.line); :}
+        | IDENT:id LBRACKET subscript:i RBRACKET
+        {: RESULT = Ast.arrayRef(id.text, (Ast.Expr) i, id.line); :}
+        ;
+
+arguments ::= expression:e moreArguments:m
+        {: List l = new ArrayList(); l.add(e); l.addAll((List) m); RESULT = l; :}
+        ;
+
+moreArguments ::= /* empty */
+        {: RESULT = new ArrayList(); :}
+        | LISTSEP expression:e moreArguments:m
+        {: List l = new ArrayList(); l.add(e); l.addAll((List) m); RESULT = l; :}
+        ;
+
+/* ---------------------------------------------------------- block expression */
+
+blockDecls ::= /* empty */
+        {: RESULT = new ArrayList(); :}
+        | blockDecls:l declaration:d ENDSTMT
+        {: ((List) l).add(d); RESULT = l; :}
+        ;
+
+blockStatements ::= /* empty */
+        {: RESULT = new ArrayList(); :}
+        | blockStatements:l statement:s
+        {: ((List) l).add(s); RESULT = l; :}
+        ;
+
+/* ---------------------------------------------------------------- outputs */
+
+outputs ::= output:o moreOutput:m
+        {: List l = new ArrayList(); l.add(o); l.addAll((List) m); RESULT = l; :}
+        ;
+
+output ::= expression:e
+        {: RESULT = e; :}
+        | STRCONST:s
+        {: RESULT = s.text; :}
+        | SKIP
+        {: RESULT = null; :}
+        ;
+
+moreOutput ::= /* empty */
+        {: RESULT = new ArrayList(); :}
+        | LISTSEP output:o moreOutput:m
+        {: List l = new ArrayList(); l.add(o); l.addAll((List) m); RESULT = l; :}
+        ;
+
+/* ----------------------------------------------------------------- inputs */
+
+inputs ::= input:i moreInputs:m
+        {: List l = new ArrayList(); l.add(i); l.addAll((List) m); RESULT = l; :}
+        ;
+
+input ::= IDENT:id optSubscript:s
+        {: RESULT = Ast.getItem(id.text, (Ast.Expr) s, id.line); :}
+        ;
+
+moreInputs ::= /* empty */
+        {: RESULT = new ArrayList(); :}
+        | LISTSEP input:i moreInputs:m
+        {: List l = new ArrayList(); l.add(i); l.addAll((List) m); RESULT = l; :}
+        ;
+
+optSubscript ::= /* empty */
+        {: RESULT = null; :}
+        | LBRACKET subscript:s RBRACKET
+        {: RESULT = s; :}
+        ;

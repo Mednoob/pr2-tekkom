@@ -1,0 +1,4 @@
+{
+    integer func add(a : integer, b : integer) = a + b;
+    put add(1, true)
+}

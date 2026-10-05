@@ -1,0 +1,6 @@
+{
+    integer func square(x : integer) = x * x;
+    integer func cubesum(a : integer, b : integer) = square(a) * a + square(b) * b;
+
+    put "3^3 + 4^3 = ", cubesum(3, 4), skip
+}

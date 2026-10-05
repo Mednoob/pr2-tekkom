@@ -1,0 +1,18 @@
+INT 0
+JMP 5
+LIT 42
+STRES
+RETF
+JMP 11
+INT 0
+OUTS "hello from a procedure"
+OUTNL
+OUTNL
+RET
+CALL 6 0 0
+OUTS "answer = "
+CALF 2 0 0
+OUT
+OUTNL
+OUTNL
+HALT

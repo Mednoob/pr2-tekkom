@@ -1,0 +1,15 @@
+{
+    var a : boolean;
+    var b : boolean;
+    a := true;
+    b := false;
+    put "a & b = ", a & b, skip;
+    put "a | b = ", a | b, skip;
+    put "~a    = ", ~a, skip;
+    put "1 < 2 = ", 1 < 2, skip;
+    put "2 <= 2 = ", 2 <= 2, skip;
+    put "3 = 3 = ", 3 = 3, skip;
+    put "3 # 4 = ", 3 # 4, skip;
+    put "5 > 2 = ", 5 > 2, skip;
+    put "5 >= 5 = ", 5 >= 5, skip
+}

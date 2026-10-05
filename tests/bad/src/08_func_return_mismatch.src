@@ -1,0 +1,4 @@
+{
+    integer func f(n : integer) = true;
+    put f(1)
+}

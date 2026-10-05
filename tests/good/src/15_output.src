@@ -1,0 +1,6 @@
+{
+    put "line one", skip;
+    put "1 2 3", skip, "after skip", skip;
+    put skip;
+    put "a", 1, "b", 2, skip
+}

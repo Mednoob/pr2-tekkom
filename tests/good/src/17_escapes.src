@@ -1,0 +1,4 @@
+{
+    put "tab:[	]newline next", skip;
+    put "quote: \" done", skip
+}

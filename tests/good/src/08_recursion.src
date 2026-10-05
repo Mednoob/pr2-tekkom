@@ -1,0 +1,16 @@
+{
+    integer func fact(n : integer) =
+        { var r : integer;
+          if n <= 1 then
+              r := 1
+          else
+              r := n * fact(n - 1)
+          end if
+          ;
+          r
+        };
+
+    put "0! = ", fact(0), skip;
+    put "1! = ", fact(1), skip;
+    put "6! = ", fact(6), skip
+}

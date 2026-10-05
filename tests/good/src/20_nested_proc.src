@@ -1,0 +1,19 @@
+{
+    var base : integer;
+    proc show(delta : integer)
+        { var v : integer;
+          v := base + delta;
+          put "base + ", delta, " = ", v, skip
+        };
+
+    base := 100;
+    show(5);
+    show(23);
+    {
+        var local : integer;
+        proc inner()
+            { put "inner sees local = ", local, " and base = ", base, skip };
+        local := 7;
+        inner
+    }
+}

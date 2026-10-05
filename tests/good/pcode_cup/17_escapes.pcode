@@ -1,0 +1,8 @@
+INT 0
+OUTS "tab:[\t]newline next"
+OUTNL
+OUTNL
+OUTS "quote: \" done"
+OUTNL
+OUTNL
+HALT

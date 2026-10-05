@@ -1,0 +1,19 @@
+{
+    var a[5] : integer;
+    var i : integer;
+    var s : integer;
+    i := 0;
+    loop
+        if i >= 5 then exit end if;
+        a[i] := i * i;
+        i := i + 1
+    end loop;
+    i := 0;
+    s := 0;
+    loop
+        if i >= 5 then exit end if;
+        s := s + a[i];
+        i := i + 1
+    end loop;
+    put "sum of squares 0..4 = ", s, skip
+}
