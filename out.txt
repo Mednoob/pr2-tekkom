@@ -1,0 +1,453 @@
+###############################################################
+#  JFlex + CUP front end - variation test suite               #
+#  Sen 05 Okt 2026 13:29:36 WIB
+###############################################################
+
+############  CORRECT PROGRAMS  ###############################
+
+---------------------------------------------------------------
+PROGRAM : 01_arithmetic.src      [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/good/src/01_arithmetic.src -o tests/good/pcode_cup/01_arithmetic.pcode
+Compilation succeeded (JFlex+CUP): tests/good/src/01_arithmetic.src -> tests/good/pcode_cup/01_arithmetic.pcode  (21 instructions)
+$ java VM tests/good/pcode_cup/01_arithmetic.pcode
+x = 11
+y = 10
+
+
+---------------------------------------------------------------
+PROGRAM : 02_boolean.src      [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/good/src/02_boolean.src -o tests/good/pcode_cup/02_boolean.pcode
+Compilation succeeded (JFlex+CUP): tests/good/src/02_boolean.src -> tests/good/pcode_cup/02_boolean.pcode  (68 instructions)
+$ java VM tests/good/pcode_cup/02_boolean.pcode
+a & b = 0
+
+a | b = 1
+
+~a    = 0
+
+1 < 2 = 1
+
+2 <= 2 = 1
+
+3 = 3 = 1
+
+3 # 4 = 1
+
+5 > 2 = 1
+
+5 >= 5 = 1
+
+
+---------------------------------------------------------------
+PROGRAM : 03_ifelse.src      [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/good/src/03_ifelse.src -o tests/good/pcode_cup/03_ifelse.pcode
+Compilation succeeded (JFlex+CUP): tests/good/src/03_ifelse.src -> tests/good/pcode_cup/03_ifelse.pcode  (22 instructions)
+$ java VM tests/good/pcode_cup/03_ifelse.pcode
+x is small
+
+x equals seven
+
+
+---------------------------------------------------------------
+PROGRAM : 04_repeat.src      [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/good/src/04_repeat.src -o tests/good/pcode_cup/04_repeat.pcode
+Compilation succeeded (JFlex+CUP): tests/good/src/04_repeat.src -> tests/good/pcode_cup/04_repeat.pcode  (23 instructions)
+$ java VM tests/good/pcode_cup/04_repeat.pcode
+sum 1..5 = 15
+
+
+---------------------------------------------------------------
+PROGRAM : 05_loop_exit.src      [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/good/src/05_loop_exit.src -o tests/good/pcode_cup/05_loop_exit.pcode
+Compilation succeeded (JFlex+CUP): tests/good/src/05_loop_exit.src -> tests/good/pcode_cup/05_loop_exit.pcode  (24 instructions)
+$ java VM tests/good/pcode_cup/05_loop_exit.pcode
+1 
+2 
+
+stopped at 3
+
+
+---------------------------------------------------------------
+PROGRAM : 06_array.src      [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/good/src/06_array.src -o tests/good/pcode_cup/06_array.pcode
+Compilation succeeded (JFlex+CUP): tests/good/src/06_array.src -> tests/good/pcode_cup/06_array.pcode  (49 instructions)
+$ java VM tests/good/pcode_cup/06_array.pcode
+sum of squares 0..4 = 30
+
+
+---------------------------------------------------------------
+PROGRAM : 07_factorial.src      [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/good/src/07_factorial.src -o tests/good/pcode_cup/07_factorial.pcode
+Compilation succeeded (JFlex+CUP): tests/good/src/07_factorial.src -> tests/good/pcode_cup/07_factorial.pcode  (40 instructions)
+$ java VM tests/good/pcode_cup/07_factorial.pcode
+5! = 120
+
+7! = 5040
+
+
+---------------------------------------------------------------
+PROGRAM : 08_recursion.src      [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/good/src/08_recursion.src -o tests/good/pcode_cup/08_recursion.pcode
+Compilation succeeded (JFlex+CUP): tests/good/src/08_recursion.src -> tests/good/pcode_cup/08_recursion.pcode  (40 instructions)
+$ java VM tests/good/pcode_cup/08_recursion.pcode
+0! = 1
+
+1! = 1
+
+6! = 720
+
+
+---------------------------------------------------------------
+PROGRAM : 09_procedure.src      [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/good/src/09_procedure.src -o tests/good/pcode_cup/09_procedure.pcode
+Compilation succeeded (JFlex+CUP): tests/good/src/09_procedure.src -> tests/good/pcode_cup/09_procedure.pcode  (28 instructions)
+$ java VM tests/good/pcode_cup/09_procedure.pcode
+7
+7
+7
+7
+
+
+9
+9
+9
+9
+9
+9
+
+
+
+---------------------------------------------------------------
+PROGRAM : 10_nested_scope.src      [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/good/src/10_nested_scope.src -o tests/good/pcode_cup/10_nested_scope.pcode
+Compilation succeeded (JFlex+CUP): tests/good/src/10_nested_scope.src -> tests/good/pcode_cup/10_nested_scope.pcode  (33 instructions)
+$ java VM tests/good/pcode_cup/10_nested_scope.pcode
+inner  = 321
+
+middle = 21
+
+outer  = 1
+
+
+---------------------------------------------------------------
+PROGRAM : 11_blockexpr.src      [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/good/src/11_blockexpr.src -o tests/good/pcode_cup/11_blockexpr.pcode
+Compilation succeeded (JFlex+CUP): tests/good/src/11_blockexpr.src -> tests/good/pcode_cup/11_blockexpr.pcode  (26 instructions)
+$ java VM tests/good/pcode_cup/11_blockexpr.pcode
+x = 100, y = 42
+
+
+---------------------------------------------------------------
+PROGRAM : 12_input.src      [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/good/src/12_input.src -o tests/good/pcode_cup/12_input.pcode
+Compilation succeeded (JFlex+CUP): tests/good/src/12_input.src -> tests/good/pcode_cup/12_input.pcode  (16 instructions)
+$ java VM tests/good/pcode_cup/12_input.pcode
+enter a number: 
+you entered 42, its double is 84
+
+
+---------------------------------------------------------------
+PROGRAM : 13_gcd.src      [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/good/src/13_gcd.src -o tests/good/pcode_cup/13_gcd.pcode
+Compilation succeeded (JFlex+CUP): tests/good/src/13_gcd.src -> tests/good/pcode_cup/13_gcd.pcode  (40 instructions)
+$ java VM tests/good/pcode_cup/13_gcd.pcode
+gcd(48,36) = 12
+
+gcd(17,5)  = 1
+
+
+---------------------------------------------------------------
+PROGRAM : 14_operators.src      [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/good/src/14_operators.src -o tests/good/pcode_cup/14_operators.pcode
+Compilation succeeded (JFlex+CUP): tests/good/src/14_operators.src -> tests/good/pcode_cup/14_operators.pcode  (58 instructions)
+$ java VM tests/good/pcode_cup/14_operators.pcode
+x = 11
+
+b = 1
+
+-x = -11
+
+(2+3)*4 = 20
+
+10 / 3 = 3
+
+10 - 3 - 2 = 5
+
+
+---------------------------------------------------------------
+PROGRAM : 15_output.src      [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/good/src/15_output.src -o tests/good/pcode_cup/15_output.pcode
+Compilation succeeded (JFlex+CUP): tests/good/src/15_output.src -> tests/good/pcode_cup/15_output.pcode  (20 instructions)
+$ java VM tests/good/pcode_cup/15_output.pcode
+line one
+
+1 2 3
+after skip
+
+
+
+a1b2
+
+
+---------------------------------------------------------------
+PROGRAM : 16_two_funcs.src      [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/good/src/16_two_funcs.src -o tests/good/pcode_cup/16_two_funcs.pcode
+Compilation succeeded (JFlex+CUP): tests/good/src/16_two_funcs.src -> tests/good/pcode_cup/16_two_funcs.pcode  (27 instructions)
+$ java VM tests/good/pcode_cup/16_two_funcs.pcode
+3^3 + 4^3 = 91
+
+
+---------------------------------------------------------------
+PROGRAM : 17_escapes.src      [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/good/src/17_escapes.src -o tests/good/pcode_cup/17_escapes.pcode
+Compilation succeeded (JFlex+CUP): tests/good/src/17_escapes.src -> tests/good/pcode_cup/17_escapes.pcode  (8 instructions)
+$ java VM tests/good/pcode_cup/17_escapes.pcode
+tab:[	]newline next
+
+quote: " done
+
+
+---------------------------------------------------------------
+PROGRAM : 18_noarg_routines.src      [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/good/src/18_noarg_routines.src -o tests/good/pcode_cup/18_noarg_routines.pcode
+Compilation succeeded (JFlex+CUP): tests/good/src/18_noarg_routines.src -> tests/good/pcode_cup/18_noarg_routines.pcode  (18 instructions)
+$ java VM tests/good/pcode_cup/18_noarg_routines.pcode
+hello from a procedure
+
+answer = 42
+
+
+---------------------------------------------------------------
+PROGRAM : 19_bool_array.src      [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/good/src/19_bool_array.src -o tests/good/pcode_cup/19_bool_array.pcode
+Compilation succeeded (JFlex+CUP): tests/good/src/19_bool_array.src -> tests/good/pcode_cup/19_bool_array.pcode  (73 instructions)
+$ java VM tests/good/pcode_cup/19_bool_array.pcode
+flags[0] = 0
+
+flags[1] = 1
+
+flags[2] = 0
+
+ints[0] + ints[1] = 82
+
+
+---------------------------------------------------------------
+PROGRAM : 20_nested_proc.src      [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/good/src/20_nested_proc.src -o tests/good/pcode_cup/20_nested_proc.pcode
+Compilation succeeded (JFlex+CUP): tests/good/src/20_nested_proc.src -> tests/good/pcode_cup/20_nested_proc.pcode  (39 instructions)
+$ java VM tests/good/pcode_cup/20_nested_proc.pcode
+base + 5 = 105
+
+base + 23 = 123
+
+inner sees local = 7 and base = 100
+
+
+
+############  ERRONEOUS PROGRAMS  #############################
+
+---------------------------------------------------------------
+PROGRAM : 01_undeclared.src   (expected to be rejected)   [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/bad/src/01_undeclared.src
+tests/bad/src/01_undeclared.src:2: error: undeclared identifier 'x'
+
+---------------------------------------------------------------
+PROGRAM : 02_duplicate_decl.src   (expected to be rejected)   [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/bad/src/02_duplicate_decl.src
+tests/bad/src/02_duplicate_decl.src:3: error: identifier 'x' is already declared in this scope
+
+---------------------------------------------------------------
+PROGRAM : 03_assign_type.src   (expected to be rejected)   [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/bad/src/03_assign_type.src
+tests/bad/src/03_assign_type.src:3: error: cannot assign a value of type boolean to 'x' of type integer
+
+---------------------------------------------------------------
+PROGRAM : 04_arith_on_bool.src   (expected to be rejected)   [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/bad/src/04_arith_on_bool.src
+tests/bad/src/04_arith_on_bool.src:3: error: '+' requires integer operands but got boolean and integer
+
+---------------------------------------------------------------
+PROGRAM : 05_boolop_on_int.src   (expected to be rejected)   [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/bad/src/05_boolop_on_int.src
+tests/bad/src/05_boolop_on_int.src:3: error: '&' requires boolean operands but got integer and integer
+
+---------------------------------------------------------------
+PROGRAM : 06_if_cond_int.src   (expected to be rejected)   [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/bad/src/06_if_cond_int.src
+tests/bad/src/06_if_cond_int.src:2: error: 'if' condition must be boolean but has type integer
+
+---------------------------------------------------------------
+PROGRAM : 07_until_cond_int.src   (expected to be rejected)   [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/bad/src/07_until_cond_int.src
+tests/bad/src/07_until_cond_int.src:4: error: 'until' condition must be boolean but has type integer
+
+---------------------------------------------------------------
+PROGRAM : 08_func_return_mismatch.src   (expected to be rejected)   [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/bad/src/08_func_return_mismatch.src
+tests/bad/src/08_func_return_mismatch.src:2: error: function 'f' must return integer but its body has type boolean
+
+---------------------------------------------------------------
+PROGRAM : 09_proc_in_expr.src   (expected to be rejected)   [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/bad/src/09_proc_in_expr.src
+tests/bad/src/09_proc_in_expr.src:5: error: 'p' cannot be used in an expression
+
+---------------------------------------------------------------
+PROGRAM : 10_func_as_stmt.src   (expected to be rejected)   [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/bad/src/10_func_as_stmt.src
+tests/bad/src/10_func_as_stmt.src:3: error: 'f' is not a procedure
+
+---------------------------------------------------------------
+PROGRAM : 11_arg_count.src   (expected to be rejected)   [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/bad/src/11_arg_count.src
+tests/bad/src/11_arg_count.src:3: error: 'add' expects 2 argument(s) but got 3
+
+---------------------------------------------------------------
+PROGRAM : 12_arg_type.src   (expected to be rejected)   [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/bad/src/12_arg_type.src
+tests/bad/src/12_arg_type.src:3: error: argument 2 of 'add' must be integer but got boolean
+
+---------------------------------------------------------------
+PROGRAM : 13_scalar_index.src   (expected to be rejected)   [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/bad/src/13_scalar_index.src
+tests/bad/src/13_scalar_index.src:3: error: 'x' is not an array
+
+---------------------------------------------------------------
+PROGRAM : 14_array_no_index.src   (expected to be rejected)   [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/bad/src/14_array_no_index.src
+tests/bad/src/14_array_no_index.src:3: error: array 'a' must be indexed before assignment
+
+---------------------------------------------------------------
+PROGRAM : 15_array_index_type.src   (expected to be rejected)   [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/bad/src/15_array_index_type.src
+tests/bad/src/15_array_index_type.src:3: error: array index must be integer but has type boolean
+
+---------------------------------------------------------------
+PROGRAM : 16_get_bool.src   (expected to be rejected)   [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/bad/src/16_get_bool.src
+tests/bad/src/16_get_bool.src:3: error: input target must be integer but 'b' has type boolean
+
+---------------------------------------------------------------
+PROGRAM : 17_exit_outside.src   (expected to be rejected)   [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/bad/src/17_exit_outside.src
+tests/bad/src/17_exit_outside.src:3: error: 'exit' used outside of a 'loop'
+
+---------------------------------------------------------------
+PROGRAM : 18_array_bound_nonconst.src   (expected to be rejected)   [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/bad/src/18_array_bound_nonconst.src
+tests/bad/src/18_array_bound_nonconst.src:3: error: array bound must be a constant integer expression
+
+---------------------------------------------------------------
+PROGRAM : 19_eq_type.src   (expected to be rejected)   [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/bad/src/19_eq_type.src
+tests/bad/src/19_eq_type.src:2: error: '=' requires operands of the same type (int/int or bool/bool) but got integer and boolean
+
+---------------------------------------------------------------
+PROGRAM : 20_order_bool.src   (expected to be rejected)   [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/bad/src/20_order_bool.src
+tests/bad/src/20_order_bool.src:2: error: '<' requires integer operands but got boolean and boolean
+
+---------------------------------------------------------------
+PROGRAM : 21_unary_minus_bool.src   (expected to be rejected)   [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/bad/src/21_unary_minus_bool.src
+tests/bad/src/21_unary_minus_bool.src:3: error: unary '-' requires an integer operand but got boolean
+
+---------------------------------------------------------------
+PROGRAM : 22_undeclared_func.src   (expected to be rejected)   [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/bad/src/22_undeclared_func.src
+tests/bad/src/22_undeclared_func.src:2: error: undeclared identifier 'foo'
+
+---------------------------------------------------------------
+PROGRAM : 23_illegal_char.src   (expected to be rejected)   [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/bad/src/23_illegal_char.src
+tests/bad/src/23_illegal_char.src: error: (3:12) illegal character: '@'
+
+---------------------------------------------------------------
+PROGRAM : 24_syntax_missing_then.src   (expected to be rejected)   [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/bad/src/24_syntax_missing_then.src
+Syntax error at line 2
+tests/bad/src/24_syntax_missing_then.src: error: Unrecoverable syntax error at line 2
+
+---------------------------------------------------------------
+PROGRAM : 25_negative_array.src   (expected to be rejected)   [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/bad/src/25_negative_array.src
+tests/bad/src/25_negative_array.src:2: error: array bound must be non-negative (R39)
+
+---------------------------------------------------------------
+PROGRAM : 26_unterminated_string.src   (expected to be rejected)   [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/bad/src/26_unterminated_string.src
+tests/bad/src/26_unterminated_string.src: error: (2:9) illegal character: '"'
+
+---------------------------------------------------------------
+PROGRAM : 27_missing_endif.src   (expected to be rejected)   [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/bad/src/27_missing_endif.src
+Syntax error at line 3
+tests/bad/src/27_missing_endif.src: error: Unrecoverable syntax error at line 3
+
+---------------------------------------------------------------
+PROGRAM : 28_assign_to_func.src   (expected to be rejected)   [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/bad/src/28_assign_to_func.src
+tests/bad/src/28_assign_to_func.src:3: error: 'f' is not a variable
+
+---------------------------------------------------------------
+PROGRAM : 29_array_expr_no_index.src   (expected to be rejected)   [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/bad/src/29_array_expr_no_index.src
+tests/bad/src/29_array_expr_no_index.src:3: error: array 'a' must be indexed
+
+---------------------------------------------------------------
+PROGRAM : 30_call_non_proc.src   (expected to be rejected)   [JFlex + CUP]
+---------------------------------------------------------------
+$ java CupCompiler tests/bad/src/30_call_non_proc.src
+tests/bad/src/30_call_non_proc.src:3: error: 'x' is not a procedure
+
+###############################################################
+#  SUMMARY:  50 checks passed, 0 failed                 
+###############################################################
